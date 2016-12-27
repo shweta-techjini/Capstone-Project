@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <RelativeLayout
+        android:id="@+id/activity_intro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context="taggedit.com.teggedit.activity.IntroActivity">
+
+        <Button
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|end"
+            android:text="@string/skip"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/get_started"
+            style="@style/Base.TextAppearance.AppCompat.Widget.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="64dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ripple_white_button"
+            android:elevation="4dp"
+            android:text="@string/open_gallery"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/layout_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/get_started"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_loading1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/page_indicator"
+                android:src="@drawable/circle_over"/>
+
+            <ImageView
+                android:id="@+id/img_loading2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/page_indicator"
+                android:src="@drawable/circle_normal"/>
+
+            <ImageView
+                android:id="@+id/img_loading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:contentDescription="@string/page_indicator"
+                android:src="@drawable/circle_normal"/>
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/layout_indicator"
+            android:fadeScrollbars="false"
+            android:fadingEdge="none"
+            android:fadingEdgeLength="0dp"
+            android:focusable="false"
+            android:overScrollMode="never"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:scrollbars="none"/>
+
+    </RelativeLayout>
+</layout>

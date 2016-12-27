@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="taggedit.com.teggedit"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.IntroActivity"
+            android:theme="@style/AppTheme.NoTitleBar">
+        </activity>
+        <activity android:name=".activity.HomeActivity"/>
+        <activity
+            android:name=".activity.PhotoTagsActivity"
+            android:configChanges="keyboardHidden"
+            android:parentActivityName=".activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:parentActivityName=".activity.HomeActivity">
+        </activity>
+        <activity
+            android:name=".activity.ListTagsActivity"
+            android:parentActivityName=".activity.SettingsActivity">
+        </activity>
+
+        <provider
+            android:name=".database.TagsContentProvider"
+            android:authorities="taggedit.com.teggedit.app"
+            android:exported="false"/>
+
+        <receiver android:name=".widget.TagWidgetProvide">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_info"/>
+        </receiver>
+
+        <service
+            android:name=".widget.TagWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <service
+            android:name=".drivemanager.GoogleDriveUploadManager"
+            android:exported="false"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBslQi46036hpMp3PDkVTWhMYHzGnBeEoo"></meta-data>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"></meta-data>
+    </application>
+
+</manifest>

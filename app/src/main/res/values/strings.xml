@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Tegged It</string>
+    <string name="page_indicator">Swipe over</string>
+    <string name="intro_one">Now search your photos in Gallery by tagging them via TaggedIt.</string>
+    <string name="intro_two">Select photo from Gallery and add maximum 10 tags to it.</string>
+    <string name="intro_three">Search photos based on the tags which you have used.</string>
+    <string name="open_gallery">Open Gallery</string>
+    <string name="intent_chooser">Complete action using</string>
+    <string name="home_activity">HomeActivity</string>
+    <string name="photo_tag_activity">PhotoTagActivity</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="empty_message">No image is tagged so far start now by adding tags to select photos from gallery.</string>
+    <string name="tags">Tags</string>
+    <string name="intro">Intro</string>
+    <string name="app_version">App Version</string>
+    <string name="feedback">Feedback</string>
+    <string name="skip">Skip >></string>
+    <string name="photo_text">Photo Text</string>
+    <string name="empty_tag_message">No tags specified with this pic. Add multiple tags by comma separated.</string>
+    <string name="no_text_identify">This image does not contain any text.</string>
+    <string name="create_tag">Create Tag</string>
+    <string name="tag_hint">Comma separated tags to create multiple tags</string>
+    <string name="action_settings">Settings</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="widget_title">Search directly from tags</string>
+    <string name="save">save</string>
+    <string name="add">add</string>
+</resources>
