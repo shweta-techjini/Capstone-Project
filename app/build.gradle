@@ -3,6 +3,16 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
+    signingConfigs {
+        config {
+            keyAlias 'teggedit'
+            keyPassword 'shweta'
+            storeFile file('keystore/teggetitkeystore.jks')
+            storePassword 'shweta'
+        }
+    }
+
     defaultConfig {
         applicationId "taggedit.com.teggedit"
         minSdkVersion 16
@@ -20,12 +30,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -37,6 +48,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-drive:10.0.1'
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
     testCompile 'junit:junit:4.12'
 }
 

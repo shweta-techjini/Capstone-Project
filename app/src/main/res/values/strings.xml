@@ -27,4 +27,14 @@
     <string name="widget_title">Search directly from tags</string>
     <string name="save">save</string>
     <string name="add">add</string>
+    <string name="error_message">could not connect to server with error:</string>
+    <string name="mailto">mailto</string>
+    <string name="email_id">shweta@techjini.com</string>
+    <string name="send_mail">Send email...</string>
+    <string name="photo">Photo</string>
+    <string name="already_exist">Tag already exist, please enter different tag</string>
+    <string name="add_tags">Please add some tags.</string>
+    <string name="sure_message">Are you sure?</string>
+    <string name="delete_message">By deleting this you won\'t be able to search using this tag any more. You might have few pics with this tag</string>
+    <string name="tick_mark">Add Tag</string>
 </resources>

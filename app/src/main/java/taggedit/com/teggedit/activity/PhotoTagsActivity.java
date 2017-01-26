@@ -141,7 +141,7 @@ public class PhotoTagsActivity extends AppCompatActivity {
                 PhotoTagsCurdHelper.insertOrUpdatePhotTag(tagPhoto, this);
             }
         } else {
-            Toast.makeText(this, "Please add some tags.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.add_tags), Toast.LENGTH_SHORT).show();
         }
     }
 

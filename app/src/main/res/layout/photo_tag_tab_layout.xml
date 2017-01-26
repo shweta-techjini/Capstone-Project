@@ -38,7 +38,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    android:background="@drawable/tick_mark"/>
+                    android:background="@drawable/tick_mark"
+                    android:contentDescription="@string/tick_mark"/>
 
                 <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                     android:id="@+id/multi_tags_auto_complete"

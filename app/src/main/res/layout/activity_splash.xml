@@ -28,5 +28,6 @@
         android:layout_above="@id/app_name"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/icon"/>
 </RelativeLayout>

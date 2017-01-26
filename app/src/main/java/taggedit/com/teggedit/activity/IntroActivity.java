@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -81,11 +80,9 @@ public class IntroActivity extends AppCompatActivity implements ViewPager.OnPage
         switch (view.getId()) {
             case R.id.get_started:
                 // open gallery to select photo
-                Toast.makeText(this, "open gallery is clicked", Toast.LENGTH_SHORT).show();
                 openFileProvider();
                 break;
             case R.id.skip:
-                Toast.makeText(this, "skip is clicked", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(IntroActivity.this, HomeActivity.class));
                 finish();
                 break;

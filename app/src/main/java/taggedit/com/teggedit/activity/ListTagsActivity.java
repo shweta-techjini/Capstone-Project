@@ -52,6 +52,9 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
     private static final int ALL_TAGS_LOADER = 0;
     private static final int SEARCH_TAGS_LOADER = 1;
 
+    private static String SEARCH_TEXT = "search_text";
+    private static String RELOADTAG = "reload_tag_loader";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +117,7 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
                     Tag tag = new Tag(token);
                     if (tagListAdapter.isAlreadyExist(tag)) {
                         // show toast that it is already exist in the list
-                        Toast.makeText(this, tag.getName() + " Tag already exist, please enter different tag", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, tag.getName() + " " + getString(R.string.already_exist), Toast.LENGTH_SHORT).show();
                     } else {
                         long tagId = TagsCurdHelper.insertTag(tag, getApplicationContext());
                         tag.setId(tagId);
@@ -160,8 +163,8 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void deleteTag(final int position) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle("Are you sure?");
-        alertBuilder.setMessage("By deleting this you won't be able to search using this tag any more. You might have few pics with this tag");
+        alertBuilder.setTitle(getString(R.string.sure_message));
+        alertBuilder.setMessage(getString(R.string.delete_message));
         DialogInterface.OnClickListener positive = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -195,7 +198,7 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
 
         if (newText != null && newText.length() > 0) {
             Bundle bundle = new Bundle();
-            bundle.putString("search_text", newText);
+            bundle.putString(SEARCH_TEXT, newText);
             getLoaderManager().restartLoader(SEARCH_TAGS_LOADER, bundle, this);
         } else {
             getLoaderManager().restartLoader(ALL_TAGS_LOADER, null, this);
@@ -218,7 +221,7 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
                         sortOrder);
             }
             case SEARCH_TAGS_LOADER:
-                String search = bundle.getString("search_text");
+                String search = bundle.getString(SEARCH_TEXT);
                 Uri tagUri = PhotoTagsContract.TagsEntry.CONTENT_URI;
                 MyLogger.d(this, "search based on this text :: " + search);
                 String sortOrder = PhotoTagsContract.TagsEntry.COLUMN_TAG_NAME + " ASC";
@@ -259,14 +262,14 @@ public class ListTagsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("reload_tag_loader", true);
+        outState.putBoolean(RELOADTAG, true);
     }
 
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        boolean savedState = savedInstanceState.getBoolean("reload_tag_loader", false);
+        boolean savedState = savedInstanceState.getBoolean(RELOADTAG, false);
         if (savedState) {
             getLoaderManager().restartLoader(ALL_TAGS_LOADER, null, this);
         }

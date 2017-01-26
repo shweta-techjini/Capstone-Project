@@ -111,7 +111,7 @@ public class PhotoAddTagFragment extends Fragment implements View.OnClickListene
                         Tag tag = new Tag(token);
                         if (tagListAdapter.isAlreadyExist(tag)) {
                             // show toast that it is already exist in the list
-                            Toast.makeText(getContext(), tag.getName() + " Tag already exist, please enter different tag", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), tag.getName() + " " + getString(R.string.already_exist), Toast.LENGTH_SHORT).show();
                         } else {
                             if (databaseTags.containsKey(tag.getName())) {
                                 MyLogger.d(this, "already in database do not insert it");

@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import taggedit.com.teggedit.R;
 import taggedit.com.teggedit.database.PhotoTagsContract;
 import taggedit.com.teggedit.utility.MyLogger;
 
@@ -146,7 +147,7 @@ public class GoogleDriveUploadManager extends IntentService implements GoogleApi
         MyLogger.i(this, "GoogleApiClient connection failed: " + connectionResult.toString());
         if (!connectionResult.hasResolution()) {
             // show the localized error dialog.
-            Toast.makeText(this, "could not connect to server with error: " + connectionResult.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_message) + connectionResult.getErrorCode(), Toast.LENGTH_SHORT).show();
             return;
         }
     }

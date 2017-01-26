@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private SearchView.OnQueryTextListener listener;
     private HomePhotoGridAdapter homePhotoGridAdapter;
     private ActivityHomeBinding activityHomeBinding;
+    private static final String RELOAD_PHOTO_LOADER = "reload_photo_loader";
 
     private static final int ALL_PHOTO_WITH_TAGS_LOADER = 0;
     private String searchTagFromWidget;
@@ -202,14 +203,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("reload_photo_loader", true);
+        outState.putBoolean(RELOAD_PHOTO_LOADER, true);
     }
 
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        boolean savedState = savedInstanceState.getBoolean("reload_photo_loader", false);
+        boolean savedState = savedInstanceState.getBoolean(RELOAD_PHOTO_LOADER, false);
         if (savedState) {
             getLoaderManager().restartLoader(ALL_PHOTO_WITH_TAGS_LOADER, null, this);
         }
