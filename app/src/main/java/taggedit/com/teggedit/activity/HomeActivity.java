@@ -21,7 +21,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.ArrayList;
 
 import taggedit.com.teggedit.R;
-import taggedit.com.teggedit.TeggetItApp;
 import taggedit.com.teggedit.adapter.HomePhotoGridAdapter;
 import taggedit.com.teggedit.database.PhotoTagsContract;
 import taggedit.com.teggedit.databinding.ActivityHomeBinding;
@@ -36,6 +35,7 @@ import static taggedit.com.teggedit.activity.IntroActivity.REQUEST_FILE;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
     private SearchView.OnQueryTextListener listener;
@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         appStarted();
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         homePhotoGridAdapter = new HomePhotoGridAdapter(this);
@@ -217,7 +218,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void appStarted() {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "HomeActivity");
-        TeggetItApp.mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
 }
