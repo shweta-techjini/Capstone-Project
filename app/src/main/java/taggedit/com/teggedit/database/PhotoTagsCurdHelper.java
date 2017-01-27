@@ -20,21 +20,24 @@ public class PhotoTagsCurdHelper {
         contentValues.put(PhotoTagsContract.PhotoTagEntry.COLUMN_PHOTO_TAG_IDS, tagPhoto.getPhotoTagIds());
         contentValues.put(PhotoTagsContract.PhotoTagEntry.COLUMN_PHOTO_TAG_NAMES, tagPhoto.getPhotoTagsName());
         Uri uri = PhotoTagsContract.PhotoTagEntry.CONTENT_URI;
-        Uri resultUri = context.getContentResolver().insert(uri, contentValues);
 
-        if (resultUri == null) {
-            uri.buildUpon().appendPath(tagPhoto.getAutoIncrementId() + "");
+        if (tagPhoto.getAutoIncrementId() == -1) {
+            Uri resultUri = context.getContentResolver().insert(uri, contentValues);
+            if (resultUri != null) {
+                MyLogger.d("PhotoTagsCurdHelper", "inserted item uri is :: " + resultUri);
+                return ContentUris.parseId(resultUri);
+            } else {
+                return -1;
+            }
+        } else {
+            MyLogger.d("PhotoTagsCurdHelper", "update item who has id :: " + tagPhoto.getAutoIncrementId());
             int count = context.getContentResolver().update(uri, contentValues, PhotoTagsContract.PhotoTagEntry.COLUMN_PHOTO_ID + " = " + tagPhoto.getAutoIncrementId(), null);
+            MyLogger.d("PhotoTagsCurdHelper", "updated item count is :: " + count);
             if (count != 0) {
-                MyLogger.d("PhotoTagsCurdHelper", "updated item count is :: " + count);
                 return tagPhoto.getAutoIncrementId();
             } else {
                 return -1;
             }
-
-        } else {
-            MyLogger.d("PhotoTagsCurdHelper", "inserted item uri is :: " + resultUri);
-            return ContentUris.parseId(resultUri);
         }
     }
 }

@@ -43,6 +43,8 @@ public class PhotoTagsActivity extends AppCompatActivity {
 
     public static final String PHOTO_PATH = "photo_path";
     public static final String PHOTO_TAG_IDS = "photo_tag_ids";
+    public static final String PHOTO_ID = "photo_id";
+    public long photoId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,12 +57,14 @@ public class PhotoTagsActivity extends AppCompatActivity {
 
             selectedImagePath = getIntent().getStringExtra(PHOTO_PATH);
             String photoTagIds = getIntent().getStringExtra(PHOTO_TAG_IDS);
+            photoId = getIntent().getLongExtra(PHOTO_ID, -1);
             preTags = TagsCurdHelper.getTagsFromIds(photoTagIds, this);
             MyLogger.d(this, "photo path is :: " + selectedImagePath);
             MyLogger.d(this, "photo tag ids is :: " + photoTagIds);
         } else {
             MyLogger.d(this, "uri is :: " + selectedImage);
             selectedImagePath = PathUtils.getPath(this, selectedImage);
+            photoId = getIntent().getLongExtra(PHOTO_ID, -1);
         }
         MyLogger.d(this, "path from path utils :: " + selectedImagePath);
 
@@ -135,6 +139,7 @@ public class PhotoTagsActivity extends AppCompatActivity {
                 MyLogger.d(this, "photo related tags ids are :: " + idStringBuilder);
                 MyLogger.d(this, "photo related tags names are :: " + namesStringBuilder);
                 TagPhoto tagPhoto = new TagPhoto();
+                tagPhoto.setAutoIncrementId(photoId);
                 tagPhoto.setPhotoPath(selectedImagePath);
                 tagPhoto.setPhotoTagIds(idStringBuilder.toString());
                 tagPhoto.setPhotoTagsName(namesStringBuilder.toString());

@@ -37,4 +37,8 @@
     <string name="sure_message">Are you sure?</string>
     <string name="delete_message">By deleting this you won\'t be able to search using this tag any more. You might have few pics with this tag</string>
     <string name="tick_mark">Add Tag</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="rational_storage_permission">Without Storage permission the app is unable to access photos. Which is required to tag them. Are you sure you want to deny Storage permission?</string>
+    <string name="retry">RETRY</string>
+    <string name="i_m_sure">I\'M SURE</string>
 </resources>

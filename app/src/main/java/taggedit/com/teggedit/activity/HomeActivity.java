@@ -1,14 +1,21 @@
 package taggedit.com.teggedit.activity;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -27,13 +34,14 @@ import taggedit.com.teggedit.databinding.ActivityHomeBinding;
 import taggedit.com.teggedit.model.TagPhoto;
 import taggedit.com.teggedit.utility.MyLogger;
 
+import static taggedit.com.teggedit.activity.IntroActivity.READ_PERMISSION_REQUESTED;
 import static taggedit.com.teggedit.activity.IntroActivity.REQUEST_FILE;
 
 /**
  * Created by Shweta on 1/7/17.
  */
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private SearchView mSearchView;
@@ -60,6 +68,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 TagPhoto tagPhoto = homePhotoGridAdapter.getItem(position);
                 Intent photoTagActivity = new Intent(HomeActivity.this, PhotoTagsActivity.class);
+                photoTagActivity.putExtra(PhotoTagsActivity.PHOTO_ID, tagPhoto.getAutoIncrementId());
                 photoTagActivity.putExtra(PhotoTagsActivity.PHOTO_PATH, tagPhoto.getPhotoPath());
                 photoTagActivity.putExtra(PhotoTagsActivity.PHOTO_TAG_IDS, tagPhoto.getPhotoTagIds());
                 startActivity(photoTagActivity);
@@ -127,7 +136,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        openFileProvider();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Explain to the user why we need to read the contacts
+                showRationaleDialog();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_PERMISSION_REQUESTED);
+            }
+        } else {
+            openFileProvider();
+        }
     }
 
     private void openFileProvider() {
@@ -222,4 +242,49 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case READ_PERMISSION_REQUESTED:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openFileProvider();
+                } else {
+                    boolean shouldShowRational = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    MyLogger.d(this, "shouldShowRational :: " + shouldShowRational);
+                    if (shouldShowRational) {
+                        // Show rational message or directly ask for the request.
+                        showRationaleDialog();
+                    }
+                }
+                break;
+        }
+    }
+
+    private void showRationaleDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle(getString(R.string.permission_denied));
+        alertBuilder.setMessage(getString(R.string.rational_storage_permission));
+        DialogInterface.OnClickListener positive = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyLogger.d(this, "position clicked :: " + i);
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_PERMISSION_REQUESTED);
+                dialogInterface.dismiss();
+            }
+        };
+        DialogInterface.OnClickListener negative = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MyLogger.d(this, "position clicked :: " + i);
+                dialogInterface.dismiss();
+            }
+        };
+        alertBuilder.setPositiveButton(R.string.retry, positive);
+        alertBuilder.setNegativeButton(R.string.i_m_sure, negative);
+        AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.show();
+
+    }
 }

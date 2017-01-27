@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -93,12 +94,16 @@ public class TagsContentProvider extends ContentProvider {
         long rowID;
         switch (sUriMatcher.match(uri)) {
             case PHOTO_TAG:
-                rowID = openHelper.getWritableDatabase().insert(PhotoTagsContract.PhotoTagEntry.TABLE_NAME, "", contentValues);
-                if (rowID > 0) {
+                try {
+                    rowID = openHelper.getWritableDatabase().insert(PhotoTagsContract.PhotoTagEntry.TABLE_NAME, "", contentValues);
+                    if (rowID > 0) {
 
-                    Uri _uri = ContentUris.withAppendedId(PhotoTagsContract.PhotoTagEntry.CONTENT_URI, rowID);
-                    getContext().getContentResolver().notifyChange(_uri, null);
-                    return _uri;
+                        Uri _uri = ContentUris.withAppendedId(PhotoTagsContract.PhotoTagEntry.CONTENT_URI, rowID);
+                        getContext().getContentResolver().notifyChange(_uri, null);
+                        return _uri;
+                    }
+                } catch (SQLiteConstraintException e) {
+                    return null;
                 }
                 break;
             case TAG:
